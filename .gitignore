@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+coverage.xml
+.hypothesis/
+
+# Node / frontend
+node_modules/
+dist/
+.next/
+.cache/
+*.log
+.vite/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Generated artefacts
+plot_b4.png
+acid_zone_results.png
+*.tmp
+
+# Claude project local
+.claude/

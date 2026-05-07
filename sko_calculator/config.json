@@ -1,0 +1,77 @@
+{
+  "field_name": "Предкарпатье (по умолчанию)",
+  "well_selection": {
+    "m_pr_min": 7,
+    "m_pr_max": 11,
+    "m_pr_default": 8,
+    "h_pr_min": 5,
+    "C_k_pr": 3,
+    "C_gl_pr": 10,
+    "k_s_np": 1.1,
+    "q_pr": 24
+  },
+  "pressure_gradients": {
+    "grad_p_grp_oil": 1.8,
+    "grad_p_grp_water": 1.90,
+    "grad_p_k_oil": 1.56,
+    "grad_p_k_water": 1.73,
+    "p_opr_production_min": 15,
+    "p_opr_production_max": 20,
+    "p_opr_exploration_min": 20,
+    "p_opr_exploration_max": 40
+  },
+  "reaction_kinetics": {
+    "alpha_kgo": 0.1,
+    "comment_alpha": "Коэффициент в формуле kг.о = exp(-α·r). Для Предкарпатья = 0.1"
+  },
+  "rock_properties": {
+    "rho_sk_min": 2000,
+    "rho_sk_max": 2700,
+    "rho_sk_default": 2700,
+    "rho_p_min": 2200,
+    "rho_p_max": 2300,
+    "rho_p_default": 2300,
+    "k_ms_min": 1.1,
+    "k_ms_max": 1.3,
+    "k_ms_default": 1.2,
+    "R_ms_min": 1.7e-5,
+    "R_ms_max": 2.5e-5,
+    "R_ms_default": 2.0e-5
+  },
+  "dissolution_coefficients": {
+    "a_clay": 0.25,
+    "b_carbonate": 0.5,
+    "comment": "Для Предкарпатья: ~25% алюмосиликатов и ~50% карбонатов растворяются"
+  },
+  "permeability_regressions": {
+    "comment": "k_0 = A * m_0^B (мкм²) — регрессии Будзеня (Предкарпатье)",
+    "KL_1": {"A": 1.632e-7,  "B": 4.74},
+    "KL_2": {"A": 1.278e-9,  "B": 6.34},
+    "KL_3": {"A": 1.587e-9,  "B": 5.92},
+    "KL_4": {"A": 7.65e-10,  "B": 5.85},
+    "KL_5": {"A": 7.43e-12,  "B": 7.62}
+  },
+  "permeability_change_after_sko": {
+    "comment": "k_s* = A * exp(B * C_к)",
+    "A": 0.9,
+    "B": 0.2
+  },
+  "specific_debit_table": {
+    "comment": "Таблица B.2 — для эоценовых пластов Предкарпатья",
+    "rows": [
+      {"porosity_min": 7,  "porosity_max": 9,   "specific_debit": 0.35},
+      {"porosity_min": 9,  "porosity_max": 11,  "specific_debit": 0.65},
+      {"porosity_min": 11, "porosity_max": 13,  "specific_debit": 2.0},
+      {"porosity_min": 13, "porosity_max": 15,  "specific_debit": 3.0},
+      {"porosity_min": 15, "porosity_max": 999, "specific_debit": 4.5}
+    ]
+  },
+  "collector_types": {
+    "comment": "Таблица B.10 — типизация пород-коллекторов",
+    "KL_1": {"name": "Песчаники среднемелкозернистые", "cement": "<5%", "clay": 2, "k_uf": 0.42},
+    "KL_2": {"name": "Песчаники мелкозернистые", "cement": "<5%", "clay": 3, "k_uf": 0.37},
+    "KL_3": {"name": "Песчаники мелкозернистые, глинизированные", "cement": "5-10%", "clay": 8, "k_uf": 0.32},
+    "KL_4": {"name": "Песчаники мелкозернистые, алевролиты", "cement": "10-20%", "clay": 8, "k_uf": 0.26},
+    "KL_5": {"name": "Алевролиты слабоглинизированные", "cement": "<10%", "clay": 5, "k_uf": 0.23}
+  }
+}
