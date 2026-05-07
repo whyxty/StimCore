@@ -39,6 +39,14 @@ CASING_OPTIONS = {
 }
 
 
+EXAMPLE = {
+    "tubing":  "НКТ 73 мм",
+    "casing":  "Колонна 168 мм",
+    "H_no":    2820.0,
+    "H_vo":    2733.0,
+}
+
+
 def V_vts_no_reserve(V_zr: float) -> float:
     """(В.56) — без запаса: V_втс = 1.2·V_з.р."""
     return 1.2 * V_zr
@@ -94,7 +102,12 @@ def solve(*, V_ks: float, V_zr: float,
 
 
 def render(cfg: dict):
-    st.subheader("Задача В.10 — Объёмы продавочной и вытесняющей жидкости")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.10 — Объёмы продавочной и вытесняющей жидкости")
+    if btn_col.button("ПРИМЕР", key="btn_example_v10", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v10_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
@@ -142,10 +155,10 @@ def render(cfg: dict):
 
     # ---- ввод параметров В.10 ----
     _DEF = {
-        "tubing":  "НКТ 73 мм",
-        "casing":  "Колонна 168 мм",
-        "H_no":    2820.0,
-        "H_vo":    2733.0,
+        "tubing":  "НКТ 60 мм",
+        "casing":  "Колонна 140 мм",
+        "H_no":    0.0,
+        "H_vo":    0.0,
     }
     for k, v in _DEF.items():
         st.session_state.setdefault(f"v10_{k}", v)

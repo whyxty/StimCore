@@ -23,7 +23,7 @@ import plotly.graph_objects as go
 
 from modules.reference_tables import get_C_ms
 
-_DEFAULTS = {
+EXAMPLE = {
     "r_c":       0.1,
     "h_ef":      78.3,
     "m0":        14.0,
@@ -38,6 +38,23 @@ _DEFAULTS = {
     "C0_HCl":    15.0,
     "q_acid":    260.0,
     "V_zad":     12.0,
+}
+
+_DEFAULTS = {
+    "r_c":       0.0,
+    "h_ef":      0.0,
+    "m0":        0.0,
+    "k_vo":      0.0,
+    "k_uf":      0.0,
+    "k_v":       0.0,
+    "rho_sk":    0.0,
+    "k_ms_mode": "напрямую",
+    "k_ms_lab":  1.0,
+    "dm_s":      0.0,
+    "R_ms":      0.0,
+    "C0_HCl":    0.0,
+    "q_acid":    0.0,
+    "V_zad":     0.0,
 }
 
 
@@ -184,11 +201,11 @@ def _render_constants_block(cfg: dict):
 
 
 def _render_inputs(cfg: dict):
-    # дефолты из profile, если ещё не было
+    # дефолты из profile (для кнопки «ПРИМЕР»)
     rock = cfg.get("rock_properties", {})
-    _DEFAULTS["rho_sk"]   = rock.get("rho_sk_default", _DEFAULTS["rho_sk"])
-    _DEFAULTS["k_ms_lab"] = rock.get("k_ms_default",   _DEFAULTS["k_ms_lab"])
-    _DEFAULTS["R_ms"]     = rock.get("R_ms_default",   _DEFAULTS["R_ms"])
+    EXAMPLE["rho_sk"]   = rock.get("rho_sk_default", EXAMPLE["rho_sk"])
+    EXAMPLE["k_ms_lab"] = rock.get("k_ms_default",   EXAMPLE["k_ms_lab"])
+    EXAMPLE["R_ms"]     = rock.get("R_ms_default",   EXAMPLE["R_ms"])
     for k, v in _DEFAULTS.items():
         st.session_state.setdefault(f"v5_{k}", v)
 
@@ -239,7 +256,16 @@ def _render_inputs(cfg: dict):
 
 
 def render(cfg: dict):
-    st.subheader("Задача В.5 — Параметры зоны растворения СКР")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.5 — Параметры зоны растворения СКР")
+    if btn_col.button("ПРИМЕР", key="btn_example_v5", type="secondary", use_container_width=True):
+        rock = cfg.get("rock_properties", {})
+        EXAMPLE["rho_sk"]   = rock.get("rho_sk_default", EXAMPLE["rho_sk"])
+        EXAMPLE["k_ms_lab"] = rock.get("k_ms_default",   EXAMPLE["k_ms_lab"])
+        EXAMPLE["R_ms"]     = rock.get("R_ms_default",   EXAMPLE["R_ms"])
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v5_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""

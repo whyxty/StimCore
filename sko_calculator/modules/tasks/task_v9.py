@@ -23,6 +23,18 @@ import streamlit as st
 import plotly.graph_objects as go
 
 
+EXAMPLE = {
+    "r_k":     250.0,
+    "T_n":     100.0,
+    "rho_n":   840.0,
+    "W_0":     20.0,
+    "C_n":     30000.0,
+    "S_n":     18000.0,
+    "Z_ko":    150000.0,
+    "use_eps": True,
+}
+
+
 def A_s_simple(r_c: float, r_k: float, r_zr: float, r_pr: float,
                k0: float, k_s: float) -> float:
     """Формула (В.50) — схема «а», k_пр.р = k_0."""
@@ -81,7 +93,12 @@ def solve(*, r_c: float, r_zr: float, r_pr: float, r_k: float,
 
 
 def render(cfg: dict):
-    st.subheader("Задача В.9 — Технологическая и экономическая эффективность СКО")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.9 — Технологическая и экономическая эффективность СКО")
+    if btn_col.button("ПРИМЕР", key="btn_example_v9", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v9_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
@@ -148,14 +165,14 @@ def render(cfg: dict):
 
     # ---- ввод параметров В.9 ----
     _DEF = {
-        "r_k":       250.0,
-        "T_n":       100.0,
-        "rho_n":     840.0,
-        "W_0":       float(st.session_state.get("v3_W_0", 0.0)) or 20.0,
-        "C_n":       30000.0,
-        "S_n":       18000.0,
-        "Z_ko":      150000.0,
-        "use_eps":   True,
+        "r_k":       0.0,
+        "T_n":       0.0,
+        "rho_n":     0.0,
+        "W_0":       0.0,
+        "C_n":       0.0,
+        "S_n":       0.0,
+        "Z_ko":      0.0,
+        "use_eps":   False,
     }
     for k, v in _DEF.items():
         st.session_state.setdefault(f"v9_{k}", v)

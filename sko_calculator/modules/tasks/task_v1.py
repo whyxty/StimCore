@@ -7,6 +7,27 @@ _THRESHOLD_K_S = 1.1   # k_s.пр = 1.1 (формулы В.4, В.5)
 _THRESHOLD_K_MSG = _THRESHOLD_K_S ** 2  # = 1.21 (формула В.6)
 
 
+_EXAMPLE_LAYERS = [
+    {"interval": "2733-2750", "h_ef": 17,  "porosity": 12.0},
+    {"interval": "2750-2762", "h_ef": 12,  "porosity": 9.8},
+    {"interval": "2762-2780", "h_ef": 18,  "porosity": 13.0},
+    {"interval": "2780-2802", "h_ef": 22,  "porosity": 10.5},
+    {"interval": "2802-2823", "h_ef": 21,  "porosity": 9.6},
+]
+
+EXAMPLE = {
+    "K_f":      16.0,
+    "K_pot":    51.0,
+    "h_ef":     78.3,
+    "h_pta":    17.0,
+    "C_k":      3.1,
+    "k_ms_lab": 1.2,
+    "k_mg_lab": 1.15,
+    # m_gr — заполняется из cfg
+    "layers":   _EXAMPLE_LAYERS,
+}
+
+
 def solve(inp: dict, const: dict) -> dict:
     sel = const["well_selection"]
 
@@ -88,21 +109,17 @@ def solve(inp: dict, const: dict) -> dict:
 def _render_inputs(cfg: dict) -> dict:
     sel = cfg["well_selection"]
 
-    # defaults
-    st.session_state.setdefault("v1_K_f",      16.0)
-    st.session_state.setdefault("v1_K_pot",     51.0)
-    st.session_state.setdefault("v1_h_ef",      78.3)
-    st.session_state.setdefault("v1_h_pta",     17.0)
-    st.session_state.setdefault("v1_C_k",       3.1)
-    st.session_state.setdefault("v1_k_ms_lab",  1.2)
-    st.session_state.setdefault("v1_k_mg_lab",  1.15)
-    st.session_state.setdefault("v1_m_gr",      float(sel["m_pr_default"]))
-    st.session_state.setdefault("v1_layers", [
-        {"interval": "2733-2750", "h_ef": 17,  "porosity": 12.0},
-        {"interval": "2750-2762", "h_ef": 12,  "porosity": 9.8},
-        {"interval": "2762-2780", "h_ef": 18,  "porosity": 13.0},
-        {"interval": "2780-2802", "h_ef": 22,  "porosity": 10.5},
-        {"interval": "2802-2823", "h_ef": 21,  "porosity": 9.6},
+    # defaults — пустые при первом открытии; реальные значения по кнопке «ПРИМЕР»
+    st.session_state.setdefault("v1_K_f",      0.0)
+    st.session_state.setdefault("v1_K_pot",    0.0)
+    st.session_state.setdefault("v1_h_ef",     0.0)
+    st.session_state.setdefault("v1_h_pta",    0.0)
+    st.session_state.setdefault("v1_C_k",      0.0)
+    st.session_state.setdefault("v1_k_ms_lab", 1.0)
+    st.session_state.setdefault("v1_k_mg_lab", 1.0)
+    st.session_state.setdefault("v1_m_gr",     0.0)
+    st.session_state.setdefault("v1_layers",   [
+        {"interval": "", "h_ef": 0.0, "porosity": 0.0},
     ])
 
     with st.expander("📥 Исходные данные — В.1", expanded=True):
@@ -212,7 +229,14 @@ def _render_precarpathian_constants(cfg: dict):
 
 
 def render(cfg: dict):
-    st.subheader("Задача В.1 — Обоснование выбора скважины (полная информация)")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.1 — Обоснование выбора скважины (полная информация)")
+    if btn_col.button("ПРИМЕР", key="btn_example_v1", type="secondary", use_container_width=True):
+        sel = cfg["well_selection"]
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v1_{k}"] = v
+        st.session_state["v1_m_gr"] = float(sel["m_pr_default"])
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
