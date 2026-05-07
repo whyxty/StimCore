@@ -13,10 +13,16 @@ import streamlit as st
 import plotly.graph_objects as go
 
 
-_DEFAULTS = {
+EXAMPLE = {
     "C_gl":  6.6,    # содержание глин, %
     "C_k":   3.1,    # содержание карбонатов, %
     "rho_p": 2250.0, # плотность пористой породы, кг/м³ (среднее 2200–2300)
+}
+
+_DEFAULTS = {
+    "C_gl":  0.0,
+    "C_k":   0.0,
+    "rho_p": 0.0,
 }
 
 
@@ -93,7 +99,12 @@ def _render_inputs(cfg: dict):
 
 
 def render(cfg: dict):
-    st.subheader("Задача В.6 — Количество растворённой породы (по составу)")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.6 — Количество растворённой породы (по составу)")
+    if btn_col.button("ПРИМЕР", key="btn_example_v6", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v6_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""

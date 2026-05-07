@@ -15,6 +15,22 @@
 import streamlit as st
 
 
+EXAMPLE = {
+    "C_k":   3.1,
+    "k0":    0.05,
+    "N_ko":  0,
+    "T_pl":  70.0,
+    "Fe3":   0.0,
+    "W_vn":  2,
+    "N_as":  1.0,
+    "N_sm":  4.0,
+    "N_nf":  0.2,
+    "HCl":   12.0,
+    "HF":    3.0,
+    "ratio": "1:1",
+}
+
+
 # ───────── Таблица В.15 — выбор y (% HF) ─────────
 def select_y_HF(C_k: float, N_ko: int) -> int:
     n = min(N_ko, 5)
@@ -193,7 +209,12 @@ def solve(*, C_k: float, k0: float, N_ko: int, T_pl: float,
 
 # ───────── UI ─────────
 def render(cfg: dict):
-    st.subheader("Задача В.11 — Выбор состава кислотного раствора и буферных жидкостей")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.11 — Выбор состава кислотного раствора и буферных жидкостей")
+    if btn_col.button("ПРИМЕР", key="btn_example_v11", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v11_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
@@ -226,17 +247,17 @@ def render(cfg: dict):
         st.warning("Откройте В.6 и В.8 для автоматической подстановки C_к и k_0.")
 
     _DEF = {
-        "C_k":   v6_C_k or 3.1,
-        "k0":    k0_default,
+        "C_k":   0.0,
+        "k0":    0.0,
         "N_ko":  0,
-        "T_pl":  70.0,
+        "T_pl":  0.0,
         "Fe3":   0.0,
-        "W_vn":  2,
-        "N_as":  1.0,
-        "N_sm":  4.0,
-        "N_nf":  0.2,
-        "HCl":   12.0,
-        "HF":    3.0,
+        "W_vn":  1,
+        "N_as":  0.0,
+        "N_sm":  0.0,
+        "N_nf":  0.0,
+        "HCl":   10.0,
+        "HF":    1.0,
         "ratio": "1:1",
     }
     for k, v in _DEF.items():

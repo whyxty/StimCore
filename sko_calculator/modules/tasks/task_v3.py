@@ -19,6 +19,18 @@ _DEFAULT_INJECT = [
 ]
 
 
+EXAMPLE = {
+    "H":         2800.0,
+    "p_opr":     20.0,
+    "rho":       1070.0,
+    "well_type": "нефтяная",
+    "q_k":       250.0,
+    "p_k":       12.0,
+    "use_v20":   False,
+    "inject":    _DEFAULT_INJECT,
+}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 def solve(inp: dict, const: dict) -> dict:
     pg   = const["pressure_gradients"]
@@ -122,14 +134,16 @@ def _render_precarpathian_constants(cfg: dict, well_type: str):
 def _render_inputs(cfg: dict) -> dict:
     pg = cfg["pressure_gradients"]
 
-    st.session_state.setdefault("v3_H",        2800.0)
-    st.session_state.setdefault("v3_p_opr",    20.0)
-    st.session_state.setdefault("v3_rho",      1070.0)
-    st.session_state.setdefault("v3_well_type","нефтяная")
-    st.session_state.setdefault("v3_q_k",      250.0)
-    st.session_state.setdefault("v3_p_k",      12.0)
-    st.session_state.setdefault("v3_use_v20",  False)
-    st.session_state.setdefault("v3_inject",   _DEFAULT_INJECT)
+    st.session_state.setdefault("v3_H",         0.0)
+    st.session_state.setdefault("v3_p_opr",     0.0)
+    st.session_state.setdefault("v3_rho",       0.0)
+    st.session_state.setdefault("v3_well_type", "нефтяная")
+    st.session_state.setdefault("v3_q_k",       0.0)
+    st.session_state.setdefault("v3_p_k",       0.0)
+    st.session_state.setdefault("v3_use_v20",   False)
+    st.session_state.setdefault("v3_inject",    [
+        {"t, мин": 0, "q, м³/сут": 0, "p_у, МПа": 0.0},
+    ])
 
     with st.expander("📥 Исходные данные — В.3", expanded=True):
         st.markdown("**Параметры скважины и колонны**")
@@ -199,7 +213,12 @@ def _icon(ok: bool) -> str:
 
 # ─────────────────────────────────────────────────────────────────────────────
 def render(cfg: dict):
-    st.subheader("Задача В.3 — Расход и давление при нагнетании кислотного раствора")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.3 — Расход и давление при нагнетании кислотного раствора")
+    if btn_col.button("ПРИМЕР", key="btn_example_v3", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v3_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""

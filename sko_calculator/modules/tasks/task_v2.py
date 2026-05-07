@@ -19,6 +19,17 @@ _DEFAULT_LAYERS = [
 ]
 
 
+EXAMPLE = {
+    "Q_f":    86.6,
+    "q_inj":  150.0,
+    "p_pl":   25.0,
+    "H":      2800.0,
+    "C_gl":   6.6,
+    "h_ef":   81.9,
+    "layers": _DEFAULT_LAYERS,
+}
+
+
 def _q_ud(porosity: float, rows: list) -> float:
     """Удельный дебит по таблице В.2."""
     for r in rows:
@@ -128,14 +139,16 @@ def _render_precarpathian_constants():
 
 
 def _render_inputs(cfg: dict) -> dict:
-    # defaults
-    st.session_state.setdefault("v2_Q_f",    86.6)
-    st.session_state.setdefault("v2_q_inj",  150.0)
-    st.session_state.setdefault("v2_p_pl",   25.0)
-    st.session_state.setdefault("v2_H",      2800.0)
-    st.session_state.setdefault("v2_C_gl",   6.6)
-    st.session_state.setdefault("v2_h_ef",   81.9)
-    st.session_state.setdefault("v2_layers", _DEFAULT_LAYERS)
+    # defaults — пустые при первом открытии; реальные значения по кнопке «ПРИМЕР»
+    st.session_state.setdefault("v2_Q_f",    0.0)
+    st.session_state.setdefault("v2_q_inj",  0.0)
+    st.session_state.setdefault("v2_p_pl",   0.0)
+    st.session_state.setdefault("v2_H",      0.0)
+    st.session_state.setdefault("v2_C_gl",   0.0)
+    st.session_state.setdefault("v2_h_ef",   0.0)
+    st.session_state.setdefault("v2_layers", [
+        {"interval": "", "h_ef": 0.0, "porosity": 0.0, "k0": 0.0, "treat": False},
+    ])
 
     with st.expander("📥 Исходные данные — В.2", expanded=True):
         st.markdown("**Дебит и приёмистость**")
@@ -202,7 +215,12 @@ def _icon(ok: bool) -> str:
 
 
 def render(cfg: dict):
-    st.subheader("Задача В.2 — Обоснование выбора скважины (ограниченная информация)")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.2 — Обоснование выбора скважины (ограниченная информация)")
+    if btn_col.button("ПРИМЕР", key="btn_example_v2", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v2_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""

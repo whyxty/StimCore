@@ -25,6 +25,17 @@ import plotly.graph_objects as go
 _K0_THRESHOLD = 0.001   # мкм² — граница выбора (В.46) vs (В.47)
 
 
+EXAMPLE = {
+    "KL":              "KL_2",
+    "m0":              14.0,
+    "C_k":             3.1,
+    "k_ms":            1.20,
+    "k_mg":            1.15,
+    "k0_use_override": False,
+    "k0_user":         0.05,
+}
+
+
 def k0_from_regression(KL_key: str, m0: float, regs: dict) -> float:
     """k_0 = A · m_0^B (мкм²)."""
     p = regs[KL_key]
@@ -70,7 +81,12 @@ def solve(*, KL_key: str, m0: float, C_k: float, k_ms: float, k_mg: float,
 
 
 def render(cfg: dict):
-    st.subheader("Задача В.8 — Изменение проницаемости после СКО и ГКО")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.8 — Изменение проницаемости после СКО и ГКО")
+    if btn_col.button("ПРИМЕР", key="btn_example_v8", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v8_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
@@ -152,13 +168,13 @@ def render(cfg: dict):
 
     # --- ввод ---
     _DEF = {
-        "KL":          "KL_2",
-        "m0":          14.0,
-        "C_k":         3.1,
-        "k_ms":        k_ms_default,
-        "k_mg":        k_mg_default,
+        "KL":              "KL_1",
+        "m0":              0.0,
+        "C_k":             0.0,
+        "k_ms":            1.0,
+        "k_mg":            1.0,
         "k0_use_override": False,
-        "k0_user":     0.05,
+        "k0_user":         0.0,
     }
     for k, v in _DEF.items():
         st.session_state.setdefault(f"v8_{k}", v)

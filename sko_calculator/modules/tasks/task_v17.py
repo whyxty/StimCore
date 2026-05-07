@@ -21,6 +21,15 @@ import pandas as pd
 import streamlit as st
 
 
+EXAMPLE = {
+    "C_inh":   0.3,
+    "C_stab":  0.5,
+    "C_surf":  0.3,
+    "C_buf":   0.3,
+    "buf_pav": "ОП-10",
+}
+
+
 # ───── табл. В.26 — соляная кислота при 20 °C (заданные концентрации в КР) ─────
 TABLE_B26_HCl = {
     # C_HCl, % : (ρ, г/см³;  активная часть HCl, г/см³)
@@ -234,7 +243,12 @@ def _shopping_list(*dfs: pd.DataFrame) -> pd.DataFrame:
 
 # ───── UI ─────
 def render(cfg: dict):
-    st.subheader("Задача В.17 — Расчёт количества реагентов")
+    title_col, btn_col = st.columns([5, 1])
+    title_col.subheader("Задача В.17 — Расчёт количества реагентов")
+    if btn_col.button("ПРИМЕР", key="btn_example_v17", type="secondary", use_container_width=True):
+        for k, v in EXAMPLE.items():
+            st.session_state[f"v17_{k}"] = v
+        st.rerun()
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
@@ -298,10 +312,10 @@ def render(cfg: dict):
 
     # ───── ввод концентраций (по товарной массе) и товарной HCl ─────
     _DEF = {
-        "C_inh":  0.3,
-        "C_stab": 0.5,
-        "C_surf": 0.3,
-        "C_buf":  0.3,
+        "C_inh":   0.0,
+        "C_stab":  0.0,
+        "C_surf":  0.0,
+        "C_buf":   0.0,
         "buf_pav": surf_name or "ОП-10",
     }
     for k, v in _DEF.items():
