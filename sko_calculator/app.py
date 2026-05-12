@@ -143,5 +143,3 @@ if section.startswith("🛠"):
 else:
     render_tasks()
 
-st.sidebar.markdown("---")
-st.sidebar.caption("Литература: Приложение В — методика проектирования КО (только ветка СКО).")
