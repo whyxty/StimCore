@@ -43,38 +43,38 @@ def render_constants_ui():
     with st.expander("Критерии отбора скважины", expanded=True):
         sel = cfg["well_selection"]
         c1, c2, c3 = st.columns(3)
-        sel["m_pr_default"] = c1.number_input("$m_{пр}$, % — минимальная пористость", value=float(sel["m_pr_default"]), help="Типично 7–11% для Предкарпатья")
-        sel["h_pr_min"] = c1.number_input("$h_{пр}$, м — минимальная толщина", value=float(sel["h_pr_min"]))
-        sel["C_k_pr"] = c2.number_input("$C_{к.пр}$, % — минимальная карбонатность", value=float(sel["C_k_pr"]))
-        sel["C_gl_pr"] = c2.number_input("$C_{гл.пр}$, % — максимальная глинистость", value=float(sel["C_gl_pr"]))
-        sel["k_s_np"] = c3.number_input("$k_{s.пр}$ — мин. прирост пористости", value=float(sel["k_s_np"]), step=0.05)
-        sel["q_pr"] = c3.number_input("$q_{пр}$, м³/сут — мин. приёмистость", value=float(sel["q_pr"]))
+        sel["m_pr_default"] = c1.number_input("$m_{пр}$, % (граничная пористость коллектора)", value=float(sel["m_pr_default"]), help="Типично 7–11% для Предкарпатья")
+        sel["h_pr_min"] = c1.number_input("$h_{пр}$, м (минимальная толщина поглощающего пласта)", value=float(sel["h_pr_min"]))
+        sel["C_k_pr"] = c2.number_input("$C_{к.пр}$, % (минимальная карбонатность породы)", value=float(sel["C_k_pr"]))
+        sel["C_gl_pr"] = c2.number_input("$C_{гл.пр}$, % (максимальная глинистость породы)", value=float(sel["C_gl_pr"]))
+        sel["k_s_np"] = c3.number_input("$k_{s.пр}$ (минимальный прирост пористости после СКО)", value=float(sel["k_s_np"]), step=0.05)
+        sel["q_pr"] = c3.number_input("$q_{пр}$, м³/сут (минимальная приёмистость скважины)", value=float(sel["q_pr"]))
 
     with st.expander("Градиенты давления и опрессовки"):
         pg = cfg["pressure_gradients"]
         c1, c2 = st.columns(2)
-        pg["grad_p_grp_oil"] = c1.number_input("grad $p_{грп}$ — нефтяные", value=float(pg["grad_p_grp_oil"]), step=0.01)
-        pg["grad_p_grp_water"] = c2.number_input("grad $p_{грп}$ — водонагнетательные", value=float(pg["grad_p_grp_water"]), step=0.01)
+        pg["grad_p_grp_oil"] = c1.number_input("grad $p_{грп}$ (градиент давления гидроразрыва, нефтяные)", value=float(pg["grad_p_grp_oil"]), step=0.01)
+        pg["grad_p_grp_water"] = c2.number_input("grad $p_{грп}$ (градиент давления гидроразрыва, водонагнетательные)", value=float(pg["grad_p_grp_water"]), step=0.01)
 
     with st.expander("Кинетика реакции (α)"):
         rk = cfg["reaction_kinetics"]
-        rk["alpha_kgo"] = st.number_input(r"$\alpha$ в $k_{го} = e^{-\alpha \cdot r}$", value=float(rk["alpha_kgo"]), step=0.01,
+        rk["alpha_kgo"] = st.number_input(r"$\alpha$ в $k_{го}=e^{-\alpha r}$ (коэффициент кинетики реакции ГКР)", value=float(rk["alpha_kgo"]), step=0.01,
                                           help="Для Предкарпатья = 0.1")
         st.caption(rk.get("comment_alpha", ""))
 
     with st.expander("Свойства породы (диапазоны)"):
         rp = cfg["rock_properties"]
         c1, c2, c3 = st.columns(3)
-        rp["rho_sk_default"] = c1.number_input(r"$\rho_{ск}$, кг/м³ — по умолчанию", value=float(rp["rho_sk_default"]))
-        rp["rho_p_default"] = c2.number_input(r"$\rho_{п}$, кг/м³ — по умолчанию", value=float(rp["rho_p_default"]))
-        rp["k_ms_default"] = c3.number_input("$k_{ms}$ — по умолчанию", value=float(rp["k_ms_default"]), step=0.05)
-        rp["R_ms_default"] = c1.number_input("$R_{ms}$ — по умолчанию", value=float(rp["R_ms_default"]), step=1e-6, format="%.7f")
+        rp["rho_sk_default"] = c1.number_input(r"$\rho_{ск}$, кг/м³ (плотность скелета породы)", value=float(rp["rho_sk_default"]))
+        rp["rho_p_default"] = c2.number_input(r"$\rho_{п}$, кг/м³ (плотность пористой породы)", value=float(rp["rho_p_default"]))
+        rp["k_ms_default"] = c3.number_input("$k_{ms}$ (коэффициент возрастания пористости после СКО)", value=float(rp["k_ms_default"]), step=0.05)
+        rp["R_ms_default"] = c1.number_input("$R_{ms}$, кг/(мг·экв) (удельная масса растворённой породы на 1 мг·экв HCl)", value=float(rp["R_ms_default"]), step=1e-6, format="%.7f")
 
     with st.expander("Коэффициенты растворения (a, b)"):
         d = cfg["dissolution_coefficients"]
         c1, c2 = st.columns(2)
-        d["a_clay"] = c1.number_input("$a$ — коэф. растворения глин", value=float(d["a_clay"]), step=0.01)
-        d["b_carbonate"] = c2.number_input("$b$ — коэф. растворения карбонатов", value=float(d["b_carbonate"]), step=0.01)
+        d["a_clay"] = c1.number_input("$a$ (доля растворимости глин в HCl)", value=float(d["a_clay"]), step=0.01)
+        d["b_carbonate"] = c2.number_input("$b$ (доля растворимости карбонатов в HCl)", value=float(d["b_carbonate"]), step=0.01)
         st.caption(d.get("comment", ""))
 
     with st.expander("Регрессии k₀(m₀) — табл. B.11"):
@@ -82,14 +82,14 @@ def render_constants_ui():
             key = f"KL_{KL}"
             r = cfg["permeability_regressions"][key]
             c1, c2 = st.columns(2)
-            r["A"] = c1.number_input(f"$KL_{KL}$ · $A$", value=float(r["A"]), format="%.3e", key=f"reg_A_{KL}")
-            r["B"] = c2.number_input(f"$KL_{KL}$ · $B$", value=float(r["B"]), step=0.01, key=f"reg_B_{KL}")
+            r["A"] = c1.number_input(f"$KL_{KL}$ · $A$ (предэкспоненциальный коэффициент регрессии $k_0(m_0)$)", value=float(r["A"]), format="%.3e", key=f"reg_A_{KL}")
+            r["B"] = c2.number_input(f"$KL_{KL}$ · $B$ (показатель степени регрессии $k_0(m_0)$)", value=float(r["B"]), step=0.01, key=f"reg_B_{KL}")
 
     with st.expander("k_s* = A·exp(B·C_к)"):
         ps = cfg["permeability_change_after_sko"]
         c1, c2 = st.columns(2)
-        ps["A"] = c1.number_input("$A$ — в формуле $k_s^*$", value=float(ps["A"]), step=0.05)
-        ps["B"] = c2.number_input("$B$ — в формуле $k_s^*$", value=float(ps["B"]), step=0.01)
+        ps["A"] = c1.number_input("$A$ (предэкспоненциальный коэффициент в $k_s^*=A\\,e^{B C_к}$)", value=float(ps["A"]), step=0.05)
+        ps["B"] = c2.number_input("$B$ (коэффициент при $C_к$ в $k_s^*=A\\,e^{B C_к}$)", value=float(ps["B"]), step=0.01)
 
     with st.expander("Таблица B.2 — удельные дебиты"):
         import pandas as pd
