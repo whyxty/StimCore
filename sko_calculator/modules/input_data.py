@@ -43,9 +43,18 @@ def fill_example_inputs():
         st.session_state[k] = v
 
 
-def render_input_form():
-    st.header("📥 Исходные данные скважины")
-    st.caption("Эти данные используются всеми задачами. Заполните один раз и переходите к расчётам.")
+def render_input_form(inline: bool = False):
+    """Форма ввода данных скважины.
+
+    inline=True → встраиваемый режим: без шапки страницы и без кнопок
+    навигации (используется внутри страницы «Настройки месторождения»).
+    """
+    if not inline:
+        st.header("📥 Исходные данные скважины")
+        st.caption("Эти данные используются всеми задачами. Заполните один раз и переходите к расчётам.")
+    else:
+        st.markdown("### 📥 Данные скважины")
+        st.caption("Эти данные используются всеми задачами расчёта СКО.")
 
     init_session_defaults()
 
@@ -141,16 +150,17 @@ def render_input_form():
         edited = st.data_editor(df, num_rows="dynamic", use_container_width=True, key="layers_editor")
         st.session_state.layers_table = edited.to_dict("records")
 
-    st.markdown('<div style="height:14px"></div>', unsafe_allow_html=True)
-    left, _, right = st.columns([2, 6, 2])
-    if left.button("ПРИМЕР", use_container_width=True,
-                   key="btn_example_inputs", type="secondary"):
-        fill_example_inputs()
-        st.rerun()
-    if right.button("ДАЛЕЕ  →", use_container_width=True,
-                    key="btn_next_inputs", type="primary"):
-        st.session_state["_pending_section"] = "📋 Задачи СКО"
-        st.rerun()
+    if not inline:
+        st.markdown('<div style="height:14px"></div>', unsafe_allow_html=True)
+        left, _, right = st.columns([2, 6, 2])
+        if left.button("ПРИМЕР", use_container_width=True,
+                       key="btn_example_inputs", type="secondary"):
+            fill_example_inputs()
+            st.rerun()
+        if right.button("ДАЛЕЕ  →", use_container_width=True,
+                        key="btn_next_inputs", type="primary"):
+            st.session_state["_pending_section"] = "📋 Задачи СКО"
+            st.rerun()
 
 
 def get_inputs() -> dict:

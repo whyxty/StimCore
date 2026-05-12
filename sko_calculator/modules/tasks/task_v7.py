@@ -19,6 +19,8 @@ import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
 
+from ._shared import render_precarpathian_constants
+
 
 def solve(*, C_gl: float, C_k: float, rho_p: float, rho_sk: float,
           m0: float, V_zad: float | None, V_profile: pd.DataFrame | None,
@@ -52,6 +54,8 @@ def solve(*, C_gl: float, C_k: float, rho_p: float, rho_sk: float,
 
 def render(cfg: dict):
     st.subheader("Задача В.7 — Изменение пористости песчаника после СКО (косвенный метод)")
+
+    render_precarpathian_constants(cfg)
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""

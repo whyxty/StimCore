@@ -2,7 +2,7 @@
 import streamlit as st
 
 from modules.constants import reset_to_default, empty_config
-from modules.input_data import render_input_form, get_inputs, init_session_defaults
+from modules.input_data import render_input_form, get_inputs, init_session_defaults, fill_example_inputs
 from modules.theme import apply_theme, stimcore_header
 from modules.tasks import (
     task_v1, task_v2, task_v3, task_v4, task_v5,
@@ -23,7 +23,6 @@ st.sidebar.markdown("### ◆ STIMCORE")
 
 SECTIONS = [
     "🛠 Настройки месторождения",
-    "📥 Ввод данных скважины",
     "📋 Задачи СКО",
 ]
 if "section" not in st.session_state:
@@ -44,38 +43,38 @@ def render_constants_ui():
     with st.expander("Критерии отбора скважины", expanded=True):
         sel = cfg["well_selection"]
         c1, c2, c3 = st.columns(3)
-        sel["m_pr_default"] = c1.number_input("m_пр, % (мин. пористость)", value=float(sel["m_pr_default"]), help="Типично 7–11% для Предкарпатья")
-        sel["h_pr_min"] = c1.number_input("h_пр, м (мин. толщина)", value=float(sel["h_pr_min"]))
-        sel["C_k_pr"] = c2.number_input("C_к.пр, % (мин. карбонатность)", value=float(sel["C_k_pr"]))
-        sel["C_gl_pr"] = c2.number_input("C_гл.пр, % (макс. глины)", value=float(sel["C_gl_pr"]))
-        sel["k_s_np"] = c3.number_input("k_s.np (мин. возрастание пористости)", value=float(sel["k_s_np"]), step=0.05)
-        sel["q_pr"] = c3.number_input("q_пр, м³/сут (мин. приёмистость)", value=float(sel["q_pr"]))
+        sel["m_pr_default"] = c1.number_input("$m_{пр}$, % — минимальная пористость", value=float(sel["m_pr_default"]), help="Типично 7–11% для Предкарпатья")
+        sel["h_pr_min"] = c1.number_input("$h_{пр}$, м — минимальная толщина", value=float(sel["h_pr_min"]))
+        sel["C_k_pr"] = c2.number_input("$C_{к.пр}$, % — минимальная карбонатность", value=float(sel["C_k_pr"]))
+        sel["C_gl_pr"] = c2.number_input("$C_{гл.пр}$, % — максимальная глинистость", value=float(sel["C_gl_pr"]))
+        sel["k_s_np"] = c3.number_input("$k_{s.пр}$ — мин. прирост пористости", value=float(sel["k_s_np"]), step=0.05)
+        sel["q_pr"] = c3.number_input("$q_{пр}$, м³/сут — мин. приёмистость", value=float(sel["q_pr"]))
 
     with st.expander("Градиенты давления и опрессовки"):
         pg = cfg["pressure_gradients"]
         c1, c2 = st.columns(2)
-        pg["grad_p_grp_oil"] = c1.number_input("grad p_грп нефт.", value=float(pg["grad_p_grp_oil"]), step=0.01)
-        pg["grad_p_grp_water"] = c2.number_input("grad p_грп водонагн.", value=float(pg["grad_p_grp_water"]), step=0.01)
+        pg["grad_p_grp_oil"] = c1.number_input("grad $p_{грп}$ — нефтяные", value=float(pg["grad_p_grp_oil"]), step=0.01)
+        pg["grad_p_grp_water"] = c2.number_input("grad $p_{грп}$ — водонагнетательные", value=float(pg["grad_p_grp_water"]), step=0.01)
 
     with st.expander("Кинетика реакции (α)"):
         rk = cfg["reaction_kinetics"]
-        rk["alpha_kgo"] = st.number_input("α в k_го = exp(-α·r)", value=float(rk["alpha_kgo"]), step=0.01,
+        rk["alpha_kgo"] = st.number_input(r"$\alpha$ в $k_{го} = e^{-\alpha \cdot r}$", value=float(rk["alpha_kgo"]), step=0.01,
                                           help="Для Предкарпатья = 0.1")
         st.caption(rk.get("comment_alpha", ""))
 
     with st.expander("Свойства породы (диапазоны)"):
         rp = cfg["rock_properties"]
         c1, c2, c3 = st.columns(3)
-        rp["rho_sk_default"] = c1.number_input("ρ_ск default, кг/м³", value=float(rp["rho_sk_default"]))
-        rp["rho_p_default"] = c2.number_input("ρ_п default, кг/м³", value=float(rp["rho_p_default"]))
-        rp["k_ms_default"] = c3.number_input("k_ms default", value=float(rp["k_ms_default"]), step=0.05)
-        rp["R_ms_default"] = c1.number_input("R_ms default", value=float(rp["R_ms_default"]), step=1e-6, format="%.7f")
+        rp["rho_sk_default"] = c1.number_input(r"$\rho_{ск}$, кг/м³ — по умолчанию", value=float(rp["rho_sk_default"]))
+        rp["rho_p_default"] = c2.number_input(r"$\rho_{п}$, кг/м³ — по умолчанию", value=float(rp["rho_p_default"]))
+        rp["k_ms_default"] = c3.number_input("$k_{ms}$ — по умолчанию", value=float(rp["k_ms_default"]), step=0.05)
+        rp["R_ms_default"] = c1.number_input("$R_{ms}$ — по умолчанию", value=float(rp["R_ms_default"]), step=1e-6, format="%.7f")
 
     with st.expander("Коэффициенты растворения (a, b)"):
         d = cfg["dissolution_coefficients"]
         c1, c2 = st.columns(2)
-        d["a_clay"] = c1.number_input("a (глины)", value=float(d["a_clay"]), step=0.01)
-        d["b_carbonate"] = c2.number_input("b (карбонаты)", value=float(d["b_carbonate"]), step=0.01)
+        d["a_clay"] = c1.number_input("$a$ — коэф. растворения глин", value=float(d["a_clay"]), step=0.01)
+        d["b_carbonate"] = c2.number_input("$b$ — коэф. растворения карбонатов", value=float(d["b_carbonate"]), step=0.01)
         st.caption(d.get("comment", ""))
 
     with st.expander("Регрессии k₀(m₀) — табл. B.11"):
@@ -83,14 +82,14 @@ def render_constants_ui():
             key = f"KL_{KL}"
             r = cfg["permeability_regressions"][key]
             c1, c2 = st.columns(2)
-            r["A"] = c1.number_input(f"{key} A", value=float(r["A"]), format="%.3e", key=f"reg_A_{KL}")
-            r["B"] = c2.number_input(f"{key} B", value=float(r["B"]), step=0.01, key=f"reg_B_{KL}")
+            r["A"] = c1.number_input(f"$KL_{KL}$ · $A$", value=float(r["A"]), format="%.3e", key=f"reg_A_{KL}")
+            r["B"] = c2.number_input(f"$KL_{KL}$ · $B$", value=float(r["B"]), step=0.01, key=f"reg_B_{KL}")
 
     with st.expander("k_s* = A·exp(B·C_к)"):
         ps = cfg["permeability_change_after_sko"]
         c1, c2 = st.columns(2)
-        ps["A"] = c1.number_input("A (k_s*)", value=float(ps["A"]), step=0.05)
-        ps["B"] = c2.number_input("B (k_s*)", value=float(ps["B"]), step=0.01)
+        ps["A"] = c1.number_input("$A$ — в формуле $k_s^*$", value=float(ps["A"]), step=0.05)
+        ps["B"] = c2.number_input("$B$ — в формуле $k_s^*$", value=float(ps["B"]), step=0.01)
 
     with st.expander("Таблица B.2 — удельные дебиты"):
         import pandas as pd
@@ -98,15 +97,19 @@ def render_constants_ui():
         edited = st.data_editor(df, num_rows="dynamic", key="cfg_b2_editor")
         cfg["specific_debit_table"]["rows"] = edited.to_dict("records")
 
+    st.markdown("---")
+    render_input_form(inline=True)
+
     st.markdown('<div style="height:14px"></div>', unsafe_allow_html=True)
     left, _, right = st.columns([2, 6, 2])
     if left.button("ПРИМЕР", use_container_width=True,
                    key="btn_example", type="secondary"):
         st.session_state["constants"] = reset_to_default()
+        fill_example_inputs()
         st.rerun()
     if right.button("ДАЛЕЕ  →", use_container_width=True,
                     key="btn_next", type="primary"):
-        st.session_state["_pending_section"] = "📥 Ввод данных скважины"
+        st.session_state["_pending_section"] = "📋 Задачи СКО"
         st.rerun()
 
 
@@ -137,8 +140,6 @@ def render_tasks():
 
 if section.startswith("🛠"):
     render_constants_ui()
-elif section.startswith("📥"):
-    render_input_form()
 else:
     render_tasks()
 

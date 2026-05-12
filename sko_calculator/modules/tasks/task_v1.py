@@ -2,6 +2,8 @@
 import streamlit as st
 import pandas as pd
 
+from ._shared import render_precarpathian_constants as _render_precarpathian_constants
+
 
 _THRESHOLD_K_S = 1.1   # k_s.пр = 1.1 (формулы В.4, В.5)
 _THRESHOLD_K_MSG = _THRESHOLD_K_S ** 2  # = 1.21 (формула В.6)
@@ -201,31 +203,6 @@ def _icon(ok: bool) -> str:
     return "✅" if ok else "❌"
 
 
-def _render_precarpathian_constants(cfg: dict):
-    sel = cfg["well_selection"]
-    st.markdown(
-        """
-<div style="border:1px solid #e74c3c; border-radius:6px; padding:10px 16px; margin-bottom:12px;">
-<b style="color:#e74c3c;">Константы Предкарпатья (нормативные пороговые значения)</b><br><br>
-<span style="color:#e74c3c;">
-&bull; <b>m<sub>гр</sub> = {m_min}–{m_max} %</b> &nbsp;—&nbsp; граничная пористость коллектора (В.2)<br>
-&bull; <b>h<sub>пр</sub> = {h_pr} м</b> &nbsp;—&nbsp; минимальная толщина поглощающего пласта (В.3)<br>
-&bull; <b>k<sub>ms.пр</sub> = {k_s} </b> &nbsp;—&nbsp; минимальный прирост пористости после СКО (В.4)<br>
-&bull; <b>k<sub>mg.пр</sub> = {k_s} </b> &nbsp;—&nbsp; минимальный прирост пористости после ГКО (В.5)<br>
-&bull; <b>k<sub>msg.пр</sub> = {k_msg:.2f}</b> &nbsp;—&nbsp; суммарный прирост пористости (В.6)<br>
-&bull; <b>C<sub>к.пр</sub> = {C_k} %</b> &nbsp;—&nbsp; минимальная карбонатность для применения СКО (В.7)
-</span>
-</div>
-""".format(
-            m_min=sel["m_pr_min"],
-            m_max=sel["m_pr_max"],
-            h_pr=sel["h_pr_min"],
-            k_s=sel["k_s_np"],
-            k_msg=sel["k_s_np"] ** 2,
-            C_k=sel["C_k_pr"],
-        ),
-        unsafe_allow_html=True,
-    )
 
 
 def render(cfg: dict):

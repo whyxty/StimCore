@@ -14,6 +14,8 @@
 """
 import streamlit as st
 
+from ._shared import render_precarpathian_constants
+
 
 EXAMPLE = {
     "C_k":   3.1,
@@ -216,6 +218,8 @@ def render(cfg: dict):
             st.session_state[f"v11_{k}"] = v
         st.rerun()
 
+
+    render_precarpathian_constants(cfg)
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |

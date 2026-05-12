@@ -12,6 +12,8 @@ import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
 
+from ._shared import render_precarpathian_constants
+
 
 EXAMPLE = {
     "C_gl":  6.6,    # содержание глин, %
@@ -105,6 +107,8 @@ def render(cfg: dict):
         for k, v in EXAMPLE.items():
             st.session_state[f"v6_{k}"] = v
         st.rerun()
+
+    render_precarpathian_constants(cfg)
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""

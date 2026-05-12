@@ -1,5 +1,7 @@
 """Задача В.2 — обоснование выбора скважины (ограниченная информация)."""
 import streamlit as st
+
+from ._shared import render_precarpathian_constants
 import pandas as pd
 
 
@@ -221,6 +223,8 @@ def render(cfg: dict):
         for k, v in EXAMPLE.items():
             st.session_state[f"v2_{k}"] = v
         st.rerun()
+
+    render_precarpathian_constants(cfg)
 
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""

@@ -20,6 +20,8 @@ import math
 import numpy as np
 import pandas as pd
 import streamlit as st
+
+from ._shared import render_precarpathian_constants
 import plotly.graph_objects as go
 
 
@@ -100,6 +102,8 @@ def render(cfg: dict):
             st.session_state[f"v9_{k}"] = v
         st.rerun()
 
+
+    render_precarpathian_constants(cfg)
     with st.expander("📖 Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |

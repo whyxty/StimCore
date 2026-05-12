@@ -617,13 +617,6 @@ def stimcore_header(title: str = "StimCore", subtitle: str = "СКО"):
             ">{subtitle}</div>
         </div>
     </div>
-    <div style="
-        font-family: var(--mono);
-        font-size: 10px;
-        color: var(--text3);
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-    ">v0.1 · streamlit · python</div>
 </div>
 <style>
 @keyframes stimPulse {{
