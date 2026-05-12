@@ -270,7 +270,6 @@ def render(cfg: dict):
         col1, col2 = st.columns(2)
         col1.markdown(f"**ОП = {res['OP']:.4f}**")
         col2.markdown(f"Условие ОП < 1: **{'выполнено' if res['cond_OP'] else 'НЕ выполнено'}**")
-        st.info("Данные: КВД/КВУ → K_ф (вся зона дренажа), K_пот (удалённая зона, поздний участок КВД)")
 
     # В.2
     with st.expander(f"{_icon(res['all_layers_ok'])} В.2 — Пористость пластов m₀ > m_гр"):
