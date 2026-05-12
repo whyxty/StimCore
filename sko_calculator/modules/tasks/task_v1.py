@@ -124,7 +124,7 @@ def _render_inputs(cfg: dict) -> dict:
         {"interval": "", "h_ef": 0.0, "porosity": 0.0},
     ])
 
-    with st.expander("📥 Исходные данные — В.1", expanded=True):
+    with st.expander("Исходные данные — В.1", expanded=True):
         st.markdown("**Коэффициенты продуктивности (из КВД/КВУ)**")
         c1, c2 = st.columns(2)
         st.session_state["v1_K_f"] = c1.number_input(
@@ -200,7 +200,7 @@ def _render_inputs(cfg: dict) -> dict:
 
 
 def _icon(ok: bool) -> str:
-    return "✅" if ok else "❌"
+    return "[+]" if ok else "[-]"
 
 
 
@@ -215,7 +215,7 @@ def render(cfg: dict):
         st.session_state["v1_m_gr"] = float(sel["m_pr_default"])
         st.rerun()
 
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -239,7 +239,7 @@ def render(cfg: dict):
 
     _render_precarpathian_constants(cfg)
 
-    with st.expander("📐 Формулы методики", expanded=False):
+    with st.expander("Формулы методики", expanded=False):
         st.latex(r"\text{В.1} \quad ОП = \frac{K_\phi}{K_{пот}} < 1")
         st.latex(r"\text{В.2} \quad m_0 > m_{гр}")
         st.latex(r"\text{В.3} \quad h_{пгл} > h_{пр}")
@@ -314,7 +314,7 @@ def render(cfg: dict):
             st.info("C_к < C_к.пр → только ГКО (карбонатность недостаточна для СКО)")
 
     # В.8
-    with st.expander("📊 В.8 — Коэффициент охвата разреза поглощением"):
+    with st.expander("В.8 — Коэффициент охвата разреза поглощением"):
         col1, col2 = st.columns(2)
         col1.metric("k_в.о = h_пгл / h_эф", f"{res['k_vo_calc']:.3f}")
         col2.info(res["coverage_decision"])

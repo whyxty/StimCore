@@ -179,9 +179,9 @@ def _render_constants_block(cfg: dict):
     Rms_max   = rock.get("R_ms_max", 2.5e-5)
     Rms_def   = rock.get("R_ms_default", 2.0e-5)
 
-    with st.expander("📐 Константы профиля месторождения (из config.json)", expanded=False):
+    with st.expander("Константы профиля месторождения (из config.json)", expanded=False):
         st.caption(f"Профиль: **{cfg.get('field_name', '?')}**. "
-                   "Изменение — в разделе «🛠 Настройки месторождения».")
+                   "Изменение — в разделе «Настройки месторождения».")
         c1, c2, c3 = st.columns(3)
         c1.metric("α (kг.о = e^(−α·r))", f"{alpha:.3f}")
         c1.caption(rk.get("comment_alpha", ""))
@@ -211,7 +211,7 @@ def _render_inputs(cfg: dict):
     for k, v in _DEFAULTS.items():
         st.session_state.setdefault(f"v5_{k}", v)
 
-    with st.expander("📥 Исходные данные — В.5", expanded=True):
+    with st.expander("Исходные данные — В.5", expanded=True):
         c1, c2, c3 = st.columns(3)
         st.session_state["v5_r_c"]  = c1.number_input("r_c, м — радиус скважины",
             value=float(st.session_state["v5_r_c"]), step=0.01, format="%.3f")
@@ -271,7 +271,7 @@ def render(cfg: dict):
 
 
     render_precarpathian_constants(cfg)
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -328,7 +328,7 @@ def render(cfg: dict):
                 f"(прирост Δm = {res['m_c']-res['m_0']:.2f} %).")
 
     # --- таблица В.7 ---
-    with st.expander("📋 Таблица B.7 — A(r), V_ks(r), G_s(r)", expanded=False):
+    with st.expander("Таблица B.7 — A(r), V_ks(r), G_s(r)", expanded=False):
         st.dataframe(df.style.format({
             "r, м": "{:.2f}",
             "A(r)": "{:.6f}",

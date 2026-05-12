@@ -152,7 +152,7 @@ def _render_inputs(cfg: dict) -> dict:
         {"interval": "", "h_ef": 0.0, "porosity": 0.0, "k0": 0.0, "treat": False},
     ])
 
-    with st.expander("📥 Исходные данные — В.2", expanded=True):
+    with st.expander("Исходные данные — В.2", expanded=True):
         st.markdown("**Дебит и приёмистость**")
         c1, c2 = st.columns(2)
         st.session_state["v2_Q_f"] = c1.number_input(
@@ -213,7 +213,7 @@ def _render_inputs(cfg: dict) -> dict:
 
 
 def _icon(ok: bool) -> str:
-    return "✅" if ok else "❌"
+    return "[+]" if ok else "[-]"
 
 
 def render(cfg: dict):
@@ -226,7 +226,7 @@ def render(cfg: dict):
 
     render_precarpathian_constants(cfg)
 
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -258,7 +258,7 @@ def render(cfg: dict):
 
     _render_precarpathian_constants()
 
-    with st.expander("📐 Формулы методики", expanded=False):
+    with st.expander("Формулы методики", expanded=False):
         st.latex(r"\text{В.8} \quad ОД = \frac{Q_\phi}{Q_{ож}} < 1")
         st.latex(r"\text{В.9} \quad Q_{ож} = \sum_{i=1}^{n} q_{уд,i} \cdot h_{эф,i}")
         st.latex(r"\text{В.10} \quad q \geq q_{пр} = 24 \ \text{м}^3/\text{сут}")
@@ -267,7 +267,7 @@ def render(cfg: dict):
         st.latex(r"\text{В.13} \quad \varepsilon_{от} = \frac{\varepsilon_{обр}}{\varepsilon_{скв}} > 0{,}5")
         st.latex(r"\text{В.14} \quad k_{энр} = \frac{p_{пл}}{p_{гст}} > 0{,}7, \quad p_{гст} = \rho g H \cdot 10^{-6}")
 
-    with st.expander("📋 Таблица В.2 — удельные дебиты эоценовых пластов Предкарпатья", expanded=False):
+    with st.expander("Таблица В.2 — удельные дебиты эоценовых пластов Предкарпатья", expanded=False):
         rows = cfg["specific_debit_table"]["rows"]
         df_ref = pd.DataFrame([
             {"Пористость, %": f"{r['porosity_min']}–{r['porosity_max'] if r['porosity_max'] < 999 else '≥' + str(r['porosity_min'])}",
@@ -370,7 +370,7 @@ def render(cfg: dict):
         ("В.14  k_энр > 0,7",               res["cond_enr"]),
     ]
     for label, ok in criteria:
-        st.write(f"{'✅' if ok else '❌'} {label}")
+        st.write(f"{'' if ok else ''} {label}")
 
     if res["decision"]:
         st.success("**КО целесообразна.** Все критерии выполнены.")

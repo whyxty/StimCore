@@ -74,9 +74,9 @@ def _render_inputs(cfg: dict):
     diss = cfg.get("dissolution_coefficients", {})
     a = diss.get("a_clay", 0.25); b = diss.get("b_carbonate", 0.5)
 
-    with st.expander("📐 Константы (из config.json)", expanded=False):
+    with st.expander("Константы (из config.json)", expanded=False):
         st.caption(f"Профиль: **{cfg.get('field_name', '?')}**. "
-                   "Ред. — раздел «🛠 Настройки месторождения».")
+                   "Ред. — раздел «Настройки месторождения».")
         c1, c2 = st.columns(2)
         c1.metric("a (доля алюмосиликатов)", f"{a:.2f}")
         c2.metric("b (доля карбонатов)",     f"{b:.2f}")
@@ -85,7 +85,7 @@ def _render_inputs(cfg: dict):
     for k, v in _DEFAULTS.items():
         st.session_state.setdefault(f"v6_{k}", v)
 
-    with st.expander("📥 Исходные данные — В.6", expanded=True):
+    with st.expander("Исходные данные — В.6", expanded=True):
         c1, c2, c3 = st.columns(3)
         st.session_state["v6_C_gl"]  = c1.number_input(
             "C_гл, % — содержание глин",
@@ -110,7 +110,7 @@ def render(cfg: dict):
 
     render_precarpathian_constants(cfg)
 
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -170,7 +170,7 @@ def render(cfg: dict):
 
     # таблица и график профиля
     if res["df"] is not None:
-        with st.expander("📋 Профиль G_s(r) — сетка из В.5", expanded=False):
+        with st.expander("Профиль G_s(r) — сетка из В.5", expanded=False):
             fmt = {"r, м": "{:.2f}", "V_ks, м³": "{:.4f}", "G_s_В.6, кг": "{:.2f}"}
             if "G_s_В.5, кг" in res["df"].columns:
                 fmt["G_s_В.5, кг"] = "{:.2f}"

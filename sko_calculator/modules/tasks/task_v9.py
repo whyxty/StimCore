@@ -104,7 +104,7 @@ def render(cfg: dict):
 
 
     render_precarpathian_constants(cfg)
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -181,7 +181,7 @@ def render(cfg: dict):
     for k, v in _DEF.items():
         st.session_state.setdefault(f"v9_{k}", v)
 
-    with st.expander("📥 Исходные данные — В.9", expanded=True):
+    with st.expander("Исходные данные — В.9", expanded=True):
         c1, c2, c3 = st.columns(3)
         st.session_state["v9_r_k"] = c1.number_input(
             "r_к, м — радиус контура питания",

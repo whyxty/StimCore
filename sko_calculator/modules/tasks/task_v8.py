@@ -92,7 +92,7 @@ def render(cfg: dict):
 
 
     render_precarpathian_constants(cfg)
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -123,7 +123,7 @@ def render(cfg: dict):
     sko_par = cfg.get("permeability_change_after_sko", {"A": 0.9, "B": 0.2})
     coll    = cfg.get("collector_types", {})
 
-    with st.expander("📐 Константы (из config.json)", expanded=False):
+    with st.expander("Константы (из config.json)", expanded=False):
         st.caption(f"Профиль: **{cfg.get('field_name', '?')}**.")
         rows = []
         for k in ["KL_1", "KL_2", "KL_3", "KL_4", "KL_5"]:
@@ -187,7 +187,7 @@ def render(cfg: dict):
     KL_labels  = [f"{k.replace('KL_', 'КЛ ')} — {coll.get(k, {}).get('name', '')}"
                   for k in KL_options]
 
-    with st.expander("📥 Исходные данные — В.8", expanded=True):
+    with st.expander("Исходные данные — В.8", expanded=True):
         c1, c2, c3 = st.columns(3)
         idx = KL_options.index(st.session_state["v8_KL"]) \
               if st.session_state["v8_KL"] in KL_options else 1

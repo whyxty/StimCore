@@ -9,7 +9,7 @@ from modules.tasks import (
     task_v6, task_v7, task_v8, task_v9, task_v10, task_v11, task_v17,
 )
 
-st.set_page_config(page_title="StimCore — СКО", page_icon="◆", layout="wide")
+st.set_page_config(page_title="StimCore — СКО", layout="wide")
 apply_theme()
 
 # Состояние констант — при первом запуске подгружаем нормативы Предкарпатья
@@ -19,11 +19,11 @@ init_session_defaults()
 
 stimcore_header("StimCore", "Расчёт солянокислотной обработки")
 
-st.sidebar.markdown("### ◆ STIMCORE")
+st.sidebar.markdown("### STIMCORE")
 
 SECTIONS = [
-    "🛠 Настройки месторождения",
-    "📋 Задачи СКО",
+    "Настройки месторождения",
+    "Задачи СКО",
 ]
 if "section" not in st.session_state:
     st.session_state["section"] = SECTIONS[0]
@@ -37,7 +37,7 @@ section = st.sidebar.radio("Раздел", SECTIONS, key="section")
 
 
 def render_constants_ui():
-    st.header("🛠 Настройки месторождения (константы)")
+    st.header("Настройки месторождения (константы)")
     cfg = st.session_state["constants"]
 
     with st.expander("Критерии отбора скважины", expanded=True):
@@ -109,7 +109,7 @@ def render_constants_ui():
         st.rerun()
     if right.button("ДАЛЕЕ  →", use_container_width=True,
                     key="btn_next", type="primary"):
-        st.session_state["_pending_section"] = "📋 Задачи СКО"
+        st.session_state["_pending_section"] = "Задачи СКО"
         st.rerun()
 
 
@@ -130,7 +130,7 @@ TASKS = [
 
 
 def render_tasks():
-    st.header("📋 Задачи СКО")
+    st.header("Задачи СКО")
     cfg = st.session_state["constants"]
     titles = [t[0] for t in TASKS]
     sel = st.selectbox("Выберите задачу", titles)
@@ -138,7 +138,7 @@ def render_tasks():
     TASKS[idx][1](cfg)
 
 
-if section.startswith("🛠"):
+if section == "Настройки месторождения":
     render_constants_ui()
 else:
     render_tasks()

@@ -254,7 +254,7 @@ def render(cfg: dict):
 
 
     render_precarpathian_constants(cfg)
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -286,7 +286,7 @@ def render(cfg: dict):
         return None
 
     if v11.get("y_HF", 0) > 0:
-        st.warning("⚠️ В В.11 выбрана ГКО (y > 0). Этот модуль считает **только СКО** — "
+        st.warning("В В.11 выбрана ГКО (y > 0). Этот модуль считает **только СКО** — "
                    "ГКР игнорируется, расчёт ведётся для СКР.")
 
     V_ks      = float(v10["V_ks"])
@@ -325,7 +325,7 @@ def render(cfg: dict):
     for k, v in _DEF.items():
         st.session_state.setdefault(f"v17_{k}", v)
 
-    with st.expander("📥 Концентрации добавок (по товарной массе)", expanded=True):
+    with st.expander("Концентрации добавок (по товарной массе)", expanded=True):
         c1, c2, c3, c4 = st.columns(4)
         st.session_state["v17_C_inh"] = c1.number_input(
             "Ингибитор, %",
@@ -386,7 +386,7 @@ def render(cfg: dict):
             st.dataframe(res["skr"].style.format(fmt),
                          use_container_width=True, hide_index=True)
             st.caption(f"Σ удельных объёмов = {res['skr'].attrs['sum_ud']:.1f} л/м³ "
-                       + ("✓" if res['skr'].attrs['valid'] else "❌ > 1000!"))
+                       + ("✓" if res['skr'].attrs['valid'] else "> 1000!"))
 
         # Продавочная
         with st.expander(f"🟨 Продавочная жидкость — V_k = {V_prd:.3f} м³", expanded=False):

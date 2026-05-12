@@ -147,7 +147,7 @@ def _render_inputs(cfg: dict) -> dict:
         {"t, мин": 0, "q, м³/сут": 0, "p_у, МПа": 0.0},
     ])
 
-    with st.expander("📥 Исходные данные — В.3", expanded=True):
+    with st.expander("Исходные данные — В.3", expanded=True):
         st.markdown("**Параметры скважины и колонны**")
         c1, c2, c3, c4 = st.columns(4)
         st.session_state["v3_H"] = c1.number_input(
@@ -210,7 +210,7 @@ def _render_inputs(cfg: dict) -> dict:
 
 
 def _icon(ok: bool) -> str:
-    return "✅" if ok else "❌"
+    return "[+]" if ok else "[-]"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -224,7 +224,7 @@ def render(cfg: dict):
 
 
     render_precarpathian_constants(cfg)
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -251,7 +251,7 @@ def render(cfg: dict):
     wt = st.session_state.get("v3_well_type", "нефтяная")
     _render_precarpathian_constants(cfg, wt)
 
-    with st.expander("📐 Формулы методики", expanded=False):
+    with st.expander("Формулы методики", expanded=False):
         st.latex(r"\text{В.15} \quad p_k \leq p_{\text{опр}}")
         st.latex(r"\text{В.16} \quad \operatorname{grad}\,p_k < \operatorname{grad}\,p_{\text{грп}}")
         st.latex(r"\text{В.17} \quad \operatorname{grad}\,p_{\text{грп}} = \frac{p_{\text{грп}}}{0{,}01 \cdot H}")
@@ -316,7 +316,7 @@ def render(cfg: dict):
         c1.metric("q_к введённый, м³/сут",  f"{res['q_k']:.1f}")
         c2.metric("q_min (В.10), м³/сут",   f"{_Q_MIN:.0f}")
         c3.metric(f"Рек. диапазон {_Q_REC_LO:.0f}–{_Q_REC_HI:.0f} м³/сут",
-                  "✓ в диапазоне" if res["in_rec_range"] else "⚠ вне диапазона")
+                  "✓ в диапазоне" if res["in_rec_range"] else "вне диапазона")
         st.markdown(f"""
 | Предел | Значение | Обоснование |
 |---|---|---|
@@ -401,7 +401,7 @@ def render(cfg: dict):
         ("В.16  grad p_к < grad p_грп",          res["cond_grp"]),
     ]
     for label, ok in criteria:
-        st.write(f"{'✅' if ok else '❌'} {label}")
+        st.write(f"{'' if ok else ''} {label}")
 
     if res["decision"]:
         st.success(

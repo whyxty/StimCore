@@ -220,7 +220,7 @@ def render(cfg: dict):
 
 
     render_precarpathian_constants(cfg)
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -267,7 +267,7 @@ def render(cfg: dict):
     for k, v in _DEF.items():
         st.session_state.setdefault(f"v11_{k}", v)
 
-    with st.expander("📥 Исходные данные — В.11", expanded=True):
+    with st.expander("Исходные данные — В.11", expanded=True):
         c1, c2, c3 = st.columns(3)
         st.session_state["v11_C_k"] = c1.number_input(
             "C_к, % — карбонатность",
@@ -386,7 +386,7 @@ def render(cfg: dict):
             st.markdown("По типу КР (табл. В.16) ПАВ в кислотный раствор не добавляется.")
 
     # --- финальный рецепт ---
-    st.markdown("### 🧪 Итоговая рецептура")
+    st.markdown("### Итоговая рецептура")
     lines = [
         f"**Тип обработки:** {res['treatment']}",
         f"**Тип кислотного раствора:** {res['type']}",
@@ -403,7 +403,7 @@ def render(cfg: dict):
 
     # текстовый вариант для копирования
     txt = "\n".join(l.replace("**", "") for l in lines)
-    with st.expander("📋 Текст для копирования"):
+    with st.expander("Текст для копирования"):
         st.code(txt, language="text")
 
     st.session_state["task_v11_result"] = res

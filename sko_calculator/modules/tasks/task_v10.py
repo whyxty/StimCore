@@ -113,7 +113,7 @@ def render(cfg: dict):
 
 
     render_precarpathian_constants(cfg)
-    with st.expander("📖 Обозначения", expanded=False):
+    with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
 |---|---|---|
@@ -167,7 +167,7 @@ def render(cfg: dict):
     for k, v in _DEF.items():
         st.session_state.setdefault(f"v10_{k}", v)
 
-    with st.expander("📥 Исходные данные — В.10", expanded=True):
+    with st.expander("Исходные данные — В.10", expanded=True):
         c1, c2 = st.columns(2)
         st.session_state["v10_tubing"] = c1.selectbox(
             "НКТ — типоразмер",
