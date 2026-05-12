@@ -55,7 +55,7 @@ def solve(*, C_gl: float, C_k: float, rho_p: float, rho_sk: float,
 def render(cfg: dict):
     st.subheader("Задача В.7 — Изменение пористости песчаника после СКО (косвенный метод)")
 
-    render_precarpathian_constants(cfg)
+    render_precarpathian_constants(cfg, task="В.7")
 
     with st.expander("Обозначения", expanded=False):
         st.markdown("""

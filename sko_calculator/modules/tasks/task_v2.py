@@ -224,7 +224,7 @@ def render(cfg: dict):
             st.session_state[f"v2_{k}"] = v
         st.rerun()
 
-    render_precarpathian_constants(cfg)
+    render_precarpathian_constants(cfg, task="В.2")
 
     with st.expander("Обозначения", expanded=False):
         st.markdown("""

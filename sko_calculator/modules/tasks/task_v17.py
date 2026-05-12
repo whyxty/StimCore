@@ -253,7 +253,7 @@ def render(cfg: dict):
         st.rerun()
 
 
-    render_precarpathian_constants(cfg)
+    render_precarpathian_constants(cfg, task="В.17")
     with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |

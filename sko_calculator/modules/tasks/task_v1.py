@@ -239,7 +239,7 @@ def render(cfg: dict):
         st.latex(r"k_{msg} = k_{ms} \cdot k_{mg} \quad \text{— суммарный прирост пористости}")
         st.latex(r"k_{в.о} = \frac{h_{пгл}}{h_{эф}} \quad \text{— коэффициент охвата разреза по вертикали}")
 
-    _render_precarpathian_constants(cfg)
+    _render_precarpathian_constants(cfg, task="В.1")
 
     with st.expander("Формулы методики", expanded=False):
         st.latex(r"\text{В.1} \quad ОП = \frac{K_\phi}{K_{пот}} < 1")

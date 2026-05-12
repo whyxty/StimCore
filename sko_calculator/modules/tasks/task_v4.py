@@ -6,5 +6,5 @@ from ._shared import render_precarpathian_constants
 
 def render(cfg: dict):
     st.subheader("Задача В.4 — Длительность реакции СКР в порах")
-    render_precarpathian_constants(cfg)
+    render_precarpathian_constants(cfg, task="В.4")
     st.info("В разработке.")
