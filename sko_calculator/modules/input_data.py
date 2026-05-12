@@ -61,53 +61,53 @@ def render_input_form(inline: bool = False):
     with st.expander("🪪 Идентификация и общие параметры", expanded=True):
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.session_state.well_name = st.text_input("Название скважины", st.session_state.well_name)
+            st.session_state.well_name = st.text_input("Название скважины (идентификатор объекта)", st.session_state.well_name)
             st.session_state.well_type = st.selectbox(
-                "Тип скважины (В.3)",
+                "Тип скважины (нефтяная / водонагнетательная) (В.3)",
                 ["нефтяная", "водонагнетательная"],
                 index=0 if st.session_state.well_type == "нефтяная" else 1,
             )
-            st.session_state.H = st.number_input("Глубина пласта H, м (В.2, В.3)", value=float(st.session_state.H), step=10.0)
-            st.session_state.T_pl = st.number_input("Пластовая температура T_пл, °C (В.4, В.11)", value=float(st.session_state.T_pl), step=1.0)
+            st.session_state.H = st.number_input("$H$, м (глубина залегания пласта) (В.2, В.3)", value=float(st.session_state.H), step=10.0)
+            st.session_state.T_pl = st.number_input("$T_{пл}$, °C (пластовая температура) (В.4, В.11)", value=float(st.session_state.T_pl), step=1.0)
         with c2:
-            st.session_state.p_pl = st.number_input("Пластовое давление p_пл, МПа (В.2)", value=float(st.session_state.p_pl), step=0.5)
-            st.session_state.p_opr = st.number_input("Давление опрессовки p_опр, МПа (В.3)", value=float(st.session_state.p_opr), step=0.5)
-            st.session_state.r_c = st.number_input("Радиус скважины r_c, м (В.5, В.9)", value=float(st.session_state.r_c), step=0.01, format="%.3f")
-            st.session_state.r_k = st.number_input("Радиус контура питания r_к, м (В.9)", value=float(st.session_state.r_k), step=10.0)
+            st.session_state.p_pl = st.number_input("$p_{пл}$, МПа (пластовое давление) (В.2)", value=float(st.session_state.p_pl), step=0.5)
+            st.session_state.p_opr = st.number_input("$p_{опр}$, МПа (давление опрессовки колонны) (В.3)", value=float(st.session_state.p_opr), step=0.5)
+            st.session_state.r_c = st.number_input("$r_c$, м (радиус скважины по долоту) (В.5, В.9)", value=float(st.session_state.r_c), step=0.01, format="%.3f")
+            st.session_state.r_k = st.number_input("$r_к$, м (радиус контура питания) (В.9)", value=float(st.session_state.r_k), step=10.0)
         with c3:
-            st.session_state.h_ef = st.number_input("Эффективная толщина h_эф, м (В.1, В.2, В.4, В.5)", value=float(st.session_state.h_ef), step=1.0)
-            st.session_state.h_pta = st.number_input("Толщина поглощающая h_пта, м — термометрия (В.1)", value=float(st.session_state.h_pta), step=1.0)
-            st.session_state.m0 = st.number_input("Пористость m_0, % (В.4, В.5, В.6, В.7, В.8)", value=float(st.session_state.m0), step=0.5)
-            st.session_state.k0 = st.number_input("Проницаемость k_0, мкм² (В.4, В.8, В.9)", value=float(st.session_state.k0), step=0.001, format="%.4f")
+            st.session_state.h_ef = st.number_input("$h_{эф}$, м (эффективная перфорированная толщина пласта) (В.1, В.2, В.4, В.5)", value=float(st.session_state.h_ef), step=1.0)
+            st.session_state.h_pta = st.number_input("$h_{пта}$, м (поглощающая толщина по термометрии/расходометрии) (В.1)", value=float(st.session_state.h_pta), step=1.0)
+            st.session_state.m0 = st.number_input("$m_0$, % (начальная пористость пласта) (В.4, В.5, В.6, В.7, В.8)", value=float(st.session_state.m0), step=0.5)
+            st.session_state.k0 = st.number_input("$k_0$, мкм² (начальная проницаемость пласта) (В.4, В.8, В.9)", value=float(st.session_state.k0), step=0.001, format="%.4f")
 
     with st.expander("📊 Продуктивность и приёмистость", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.session_state.K_f = st.number_input("K_ф, т/(сут·МПа) (В.1)", value=float(st.session_state.K_f))
-            st.session_state.K_pot = st.number_input("K_пот, т/(сут·МПа) (В.1)", value=float(st.session_state.K_pot))
+            st.session_state.K_f = st.number_input("$K_ф$, т/(сут·МПа) (фактический коэффициент продуктивности) (В.1)", value=float(st.session_state.K_f))
+            st.session_state.K_pot = st.number_input("$K_{пот}$, т/(сут·МПа) (потенциальный коэффициент продуктивности) (В.1)", value=float(st.session_state.K_pot))
         with c2:
-            st.session_state.Q_f = st.number_input("Q_ф фактический дебит, м³/сут (В.2, В.9)", value=float(st.session_state.Q_f))
-            st.session_state.q_inj = st.number_input("q приёмистость с ПАВ, м³/сут (В.2)", value=float(st.session_state.q_inj))
+            st.session_state.Q_f = st.number_input("$Q_ф$, м³/сут (фактический дебит жидкости) (В.2, В.9)", value=float(st.session_state.Q_f))
+            st.session_state.q_inj = st.number_input("$q$, м³/сут (приёмистость скважины при закачке с ПАВ) (В.2)", value=float(st.session_state.q_inj))
         with c3:
-            st.session_state.W_0 = st.number_input("Обводнённость W_0, % (В.9)", value=float(st.session_state.W_0))
-            st.session_state.rho_n = st.number_input("Плотность нефти ρ_н, т/м³ (В.9)", value=float(st.session_state.rho_n), step=0.01)
+            st.session_state.W_0 = st.number_input("$W_0$, % (обводнённость продукции) (В.9)", value=float(st.session_state.W_0))
+            st.session_state.rho_n = st.number_input(r"$\rho_н$, т/м³ (плотность нефти в пластовых условиях) (В.9)", value=float(st.session_state.rho_n), step=0.01)
 
     with st.expander("🪨 Состав породы и фильтрационные коэффициенты", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.session_state.C_k = st.number_input("Карбонатность C_к, % (В.1, В.6, В.8)", value=float(st.session_state.C_k))
-            st.session_state.C_gl = st.number_input("Глинистость C_гл, % (В.2, В.6)", value=float(st.session_state.C_gl))
-            st.session_state.k_ms_lab = st.number_input("k_ms лаб., возрастание пористости (В.1, В.5)", value=float(st.session_state.k_ms_lab), step=0.01)
+            st.session_state.C_k = st.number_input("$C_к$, % (карбонатность породы) (В.1, В.6, В.8)", value=float(st.session_state.C_k))
+            st.session_state.C_gl = st.number_input("$C_{гл}$, % (глинистость породы) (В.2, В.6)", value=float(st.session_state.C_gl))
+            st.session_state.k_ms_lab = st.number_input("$k_{ms}$ (лабораторный коэффициент возрастания пористости после СКО) (В.1, В.5)", value=float(st.session_state.k_ms_lab), step=0.01)
         with c2:
-            st.session_state.k_vo = st.number_input("k_во охват по вертикали (В.4, В.5)", value=float(st.session_state.k_vo), step=0.01)
-            st.session_state.k_uf = st.number_input("k_уф участие пор (В.4, В.5)", value=float(st.session_state.k_uf), step=0.01)
-            st.session_state.k_v = st.number_input("k_в вытеснение (В.4, В.5)", value=float(st.session_state.k_v), step=0.01)
+            st.session_state.k_vo = st.number_input("$k_{во}$ (коэффициент охвата пласта обработкой по вертикали) (В.4, В.5)", value=float(st.session_state.k_vo), step=0.01)
+            st.session_state.k_uf = st.number_input("$k_{уф}$ (коэффициент участия пор в фильтрации) (В.4, В.5)", value=float(st.session_state.k_uf), step=0.01)
+            st.session_state.k_v = st.number_input("$k_в$ (коэффициент вытеснения нефти СКР) (В.4, В.5)", value=float(st.session_state.k_v), step=0.01)
         with c3:
-            st.session_state.rho_sk = st.number_input("ρ_ск, кг/м³ (В.5, В.7)", value=float(st.session_state.rho_sk))
-            st.session_state.rho_p = st.number_input("ρ_п, кг/м³ (В.6, В.7)", value=float(st.session_state.rho_p))
-            st.session_state.R_ms = st.number_input("R_ms, кг/(мг·экв) (В.5)", value=float(st.session_state.R_ms), step=1e-6, format="%.7f")
+            st.session_state.rho_sk = st.number_input(r"$\rho_{ск}$, кг/м³ (плотность скелета породы) (В.5, В.7)", value=float(st.session_state.rho_sk))
+            st.session_state.rho_p = st.number_input(r"$\rho_п$, кг/м³ (плотность пористой породы) (В.6, В.7)", value=float(st.session_state.rho_p))
+            st.session_state.R_ms = st.number_input("$R_{ms}$, кг/(мг·экв) (удельная масса растворённой породы на 1 мг·экв HCl) (В.5)", value=float(st.session_state.R_ms), step=1e-6, format="%.7f")
         st.session_state.K_collector_type = st.selectbox(
-            "Тип коллектора KL по табл. B.10 (В.8)",
+            "$KL$ (тип коллектора по табл. В.10) (В.8)",
             [1, 2, 3, 4, 5],
             index=int(st.session_state.K_collector_type) - 1,
         )
@@ -115,35 +115,35 @@ def render_input_form(inline: bool = False):
     with st.expander("⚗ Параметры кислотной обработки", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.session_state.C0_HCl = st.number_input("Начальная концентрация HCl C_0, % (В.4, В.11, В.17)", value=float(st.session_state.C0_HCl), step=0.5)
-            st.session_state.q_acid = st.number_input("Расход СКР q_к, м³/сут (В.4, В.5)", value=float(st.session_state.q_acid))
+            st.session_state.C0_HCl = st.number_input("$C_0$, % (начальная концентрация HCl в кислотном растворе) (В.4, В.11, В.17)", value=float(st.session_state.C0_HCl), step=0.5)
+            st.session_state.q_acid = st.number_input("$q_к$, м³/сут (расход кислотного раствора при закачке) (В.4, В.5)", value=float(st.session_state.q_acid))
         with c2:
-            st.session_state.Fe3 = st.number_input("Содержание Fe³⁺, % (В.11)", value=float(st.session_state.Fe3), step=0.01)
-            st.session_state.N_as = st.number_input("Асфальтены N_ас, % (В.11)", value=float(st.session_state.N_as))
+            st.session_state.Fe3 = st.number_input("$Fe^{3+}$, % (содержание трёхвалентного железа в СКР) (В.11)", value=float(st.session_state.Fe3), step=0.01)
+            st.session_state.N_as = st.number_input("$N_{ас}$, % (содержание асфальтенов в нефти) (В.11)", value=float(st.session_state.N_as))
         with c3:
-            st.session_state.N_sm = st.number_input("Смолы N_см, % (В.11)", value=float(st.session_state.N_sm))
-            st.session_state.N_nf = st.number_input("Нафтеновые кислоты N_нф, % (В.11)", value=float(st.session_state.N_nf))
+            st.session_state.N_sm = st.number_input("$N_{см}$, % (содержание смол в нефти) (В.11)", value=float(st.session_state.N_sm))
+            st.session_state.N_nf = st.number_input("$N_{нф}$, % (содержание нафтеновых кислот в нефти) (В.11)", value=float(st.session_state.N_nf))
 
     with st.expander("🧱 Конструкция скважины", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.session_state.H_no = st.number_input("H_н.о — нижнее отв. перфорации, м (В.10)", value=float(st.session_state.H_no))
-            st.session_state.H_vo = st.number_input("H_в.о — верхнее отв. перфорации, м (В.10)", value=float(st.session_state.H_vo))
+            st.session_state.H_no = st.number_input("$H_{н.о}$, м (глубина нижнего отверстия перфорации) (В.10)", value=float(st.session_state.H_no))
+            st.session_state.H_vo = st.number_input("$H_{в.о}$, м (глубина верхнего отверстия перфорации) (В.10)", value=float(st.session_state.H_vo))
         with c2:
-            st.session_state.D_k = st.number_input("D_к внутр. ЭК, м (В.10)", value=float(st.session_state.D_k), step=0.001, format="%.3f")
-            st.session_state.d_vn = st.number_input("d_вн внутр. НКТ, м (В.10)", value=float(st.session_state.d_vn), step=0.001, format="%.3f")
-            st.session_state.d_v = st.number_input("d_в наруж. НКТ, м (В.10)", value=float(st.session_state.d_v), step=0.001, format="%.3f")
+            st.session_state.D_k = st.number_input("$D_к$, м (внутренний диаметр эксплуатационной колонны) (В.10)", value=float(st.session_state.D_k), step=0.001, format="%.3f")
+            st.session_state.d_vn = st.number_input("$d_{вн}$, м (внутренний диаметр НКТ) (В.10)", value=float(st.session_state.d_vn), step=0.001, format="%.3f")
+            st.session_state.d_v = st.number_input("$d_в$, м (наружный диаметр НКТ) (В.10)", value=float(st.session_state.d_v), step=0.001, format="%.3f")
         with c3:
-            st.session_state.rho_fluid = st.number_input("ρ продавочной жидкости, кг/м³ (В.10)", value=float(st.session_state.rho_fluid))
+            st.session_state.rho_fluid = st.number_input(r"$\rho_{ж}$, кг/м³ (плотность продавочной жидкости) (В.10)", value=float(st.session_state.rho_fluid))
 
     with st.expander("💰 Экономика", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.session_state.T_n = st.number_input("Длительность работы T_н, сут (В.9)", value=float(st.session_state.T_n))
+            st.session_state.T_n = st.number_input("$T_н$, сут (длительность работы скважины после СКО) (В.9)", value=float(st.session_state.T_n))
         with c2:
-            st.session_state.Tsena_n = st.number_input("Цена нефти Ц_н, руб/т (В.9)", value=float(st.session_state.Tsena_n))
+            st.session_state.Tsena_n = st.number_input("$Ц_н$, руб/т (цена реализации нефти) (В.9)", value=float(st.session_state.Tsena_n))
         with c3:
-            st.session_state.Sebest_n = st.number_input("Себестоимость С_н, руб/т (В.9)", value=float(st.session_state.Sebest_n))
+            st.session_state.Sebest_n = st.number_input("$С_н$, руб/т (себестоимость добычи нефти) (В.9)", value=float(st.session_state.Sebest_n))
 
     with st.expander("📑 Таблица продуктивных пластов", expanded=False):
         df = pd.DataFrame(st.session_state.layers_table)
