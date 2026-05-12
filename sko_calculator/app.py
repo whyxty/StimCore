@@ -1,7 +1,7 @@
 """Главный Streamlit-файл приложения СКО."""
 import streamlit as st
 
-from modules.constants import reset_to_default, empty_config
+from modules.constants import reset_to_default
 from modules.input_data import render_input_form, get_inputs, init_session_defaults, fill_example_inputs
 from modules.theme import apply_theme, stimcore_header
 from modules.tasks import (
@@ -12,9 +12,9 @@ from modules.tasks import (
 st.set_page_config(page_title="StimCore — СКО", page_icon="◆", layout="wide")
 apply_theme()
 
-# Состояние констант — при первом запуске пусто
+# Состояние констант — при первом запуске подгружаем нормативы Предкарпатья
 if "constants" not in st.session_state:
-    st.session_state["constants"] = empty_config()
+    st.session_state["constants"] = reset_to_default()
 init_session_defaults()
 
 stimcore_header("StimCore", "Расчёт солянокислотной обработки")
@@ -50,19 +50,19 @@ def render_constants_ui():
         sel["k_s_np"] = c3.number_input("$k_{s.пр}$ (минимальный прирост пористости после СКО)", value=float(sel["k_s_np"]), step=0.05)
         sel["q_pr"] = c3.number_input("$q_{пр}$, м³/сут (минимальная приёмистость скважины)", value=float(sel["q_pr"]))
 
-    with st.expander("Градиенты давления и опрессовки"):
+    with st.expander("Градиенты давления и опрессовки", expanded=True):
         pg = cfg["pressure_gradients"]
         c1, c2 = st.columns(2)
         pg["grad_p_grp_oil"] = c1.number_input("grad $p_{грп}$ (градиент давления гидроразрыва, нефтяные)", value=float(pg["grad_p_grp_oil"]), step=0.01)
         pg["grad_p_grp_water"] = c2.number_input("grad $p_{грп}$ (градиент давления гидроразрыва, водонагнетательные)", value=float(pg["grad_p_grp_water"]), step=0.01)
 
-    with st.expander("Кинетика реакции (α)"):
+    with st.expander("Кинетика реакции (α)", expanded=True):
         rk = cfg["reaction_kinetics"]
         rk["alpha_kgo"] = st.number_input(r"$\alpha$ в $k_{го}=e^{-\alpha r}$ (коэффициент кинетики реакции ГКР)", value=float(rk["alpha_kgo"]), step=0.01,
                                           help="Для Предкарпатья = 0.1")
         st.caption(rk.get("comment_alpha", ""))
 
-    with st.expander("Свойства породы (диапазоны)"):
+    with st.expander("Свойства породы (диапазоны)", expanded=True):
         rp = cfg["rock_properties"]
         c1, c2, c3 = st.columns(3)
         rp["rho_sk_default"] = c1.number_input(r"$\rho_{ск}$, кг/м³ (плотность скелета породы)", value=float(rp["rho_sk_default"]))
@@ -70,14 +70,14 @@ def render_constants_ui():
         rp["k_ms_default"] = c3.number_input("$k_{ms}$ (коэффициент возрастания пористости после СКО)", value=float(rp["k_ms_default"]), step=0.05)
         rp["R_ms_default"] = c1.number_input("$R_{ms}$, кг/(мг·экв) (удельная масса растворённой породы на 1 мг·экв HCl)", value=float(rp["R_ms_default"]), step=1e-6, format="%.7f")
 
-    with st.expander("Коэффициенты растворения (a, b)"):
+    with st.expander("Коэффициенты растворения (a, b)", expanded=True):
         d = cfg["dissolution_coefficients"]
         c1, c2 = st.columns(2)
         d["a_clay"] = c1.number_input("$a$ (доля растворимости глин в HCl)", value=float(d["a_clay"]), step=0.01)
         d["b_carbonate"] = c2.number_input("$b$ (доля растворимости карбонатов в HCl)", value=float(d["b_carbonate"]), step=0.01)
         st.caption(d.get("comment", ""))
 
-    with st.expander("Регрессии k₀(m₀) — табл. B.11"):
+    with st.expander("Регрессии k₀(m₀) — табл. B.11", expanded=True):
         for KL in range(1, 6):
             key = f"KL_{KL}"
             r = cfg["permeability_regressions"][key]
@@ -85,13 +85,13 @@ def render_constants_ui():
             r["A"] = c1.number_input(f"$KL_{KL}$ · $A$ (предэкспоненциальный коэффициент регрессии $k_0(m_0)$)", value=float(r["A"]), format="%.3e", key=f"reg_A_{KL}")
             r["B"] = c2.number_input(f"$KL_{KL}$ · $B$ (показатель степени регрессии $k_0(m_0)$)", value=float(r["B"]), step=0.01, key=f"reg_B_{KL}")
 
-    with st.expander("k_s* = A·exp(B·C_к)"):
+    with st.expander("k_s* = A·exp(B·C_к)", expanded=True):
         ps = cfg["permeability_change_after_sko"]
         c1, c2 = st.columns(2)
         ps["A"] = c1.number_input("$A$ (предэкспоненциальный коэффициент в $k_s^*=A\\,e^{B C_к}$)", value=float(ps["A"]), step=0.05)
         ps["B"] = c2.number_input("$B$ (коэффициент при $C_к$ в $k_s^*=A\\,e^{B C_к}$)", value=float(ps["B"]), step=0.01)
 
-    with st.expander("Таблица B.2 — удельные дебиты"):
+    with st.expander("Таблица B.2 — удельные дебиты", expanded=True):
         import pandas as pd
         df = pd.DataFrame(cfg["specific_debit_table"]["rows"])
         edited = st.data_editor(df, num_rows="dynamic", key="cfg_b2_editor")
