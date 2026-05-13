@@ -215,6 +215,8 @@ def render(cfg: dict):
         st.session_state["v1_m_gr"] = float(sel["m_pr_default"])
         st.rerun()
 
+    _render_precarpathian_constants(cfg, task="В.1")
+
     with st.expander("Обозначения", expanded=False):
         st.markdown("""
 | Символ | Значение | Ед. |
@@ -238,8 +240,6 @@ def render(cfg: dict):
         st.latex(r"k_{mg} = \frac{m_g}{m_s} \quad \text{— прирост пористости после ГКО (лаб.)}")
         st.latex(r"k_{msg} = k_{ms} \cdot k_{mg} \quad \text{— суммарный прирост пористости}")
         st.latex(r"k_{в.о} = \frac{h_{пгл}}{h_{эф}} \quad \text{— коэффициент охвата разреза по вертикали}")
-
-    _render_precarpathian_constants(cfg, task="В.1")
 
     with st.expander("Формулы методики", expanded=False):
         st.latex(r"\text{В.1} \quad ОП = \frac{K_\phi}{K_{пот}} < 1")
