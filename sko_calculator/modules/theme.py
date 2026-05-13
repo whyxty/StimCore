@@ -387,6 +387,12 @@ code {{
     border: 1px solid var(--border) !important;
     border-radius: 6px !important;
     margin-bottom: 8px;
+    /* без overflow:hidden скруглённая рамка не «замыкается» снизу,
+       когда внутри есть широкие блоки (формулы / таблицы) */
+    overflow: hidden !important;
+}}
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {{
+    overflow-x: auto;
 }}
 [data-testid="stExpander"] summary {{
     font-family: var(--mono) !important;
@@ -487,6 +493,20 @@ div[data-testid="stAlert"][kind="success"] {{ border-left-color: var(--green) !i
     border-radius: 4px;
     padding: 12px 16px !important;
     margin: 10px 0 !important;
+    /* длинные формулы прокручиваются внутри своего блока вместо
+       того чтобы вылезать за рамку родительского экспандера */
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+}}
+/* глобальный фон bg0 на st-* классах подтягивает тёмный фон под
+   внутренние спаны KaTeX (subscript/numerator/denominator) —
+   гасим, чтобы фон у формулы был только у внешнего .katex-display */
+.katex, .katex *,
+.katex-display *,
+[data-testid="stMarkdownContainer"] .katex,
+[data-testid="stMarkdownContainer"] .katex * {{
+    background: transparent !important;
 }}
 
 /* ─── divider ─── */
