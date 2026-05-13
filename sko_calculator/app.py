@@ -32,6 +32,15 @@ if "section" not in st.session_state:
 _pending = st.session_state.pop("_pending_section", None)
 if _pending:
     st.session_state["section"] = _pending
+    # При программной смене раздела браузер сохраняет прежний скролл
+    # (кнопка «ДАЛЕЕ» внизу страницы константы → открытие задач со скроллом
+    # в самый низ). Сбрасываем позицию в верх через iframe parent.
+    import streamlit.components.v1 as _components
+    _components.html(
+        "<script>window.parent.document.querySelector('section.main')?.scrollTo(0,0);"
+        "window.parent.scrollTo(0,0);</script>",
+        height=0,
+    )
 
 section = st.sidebar.radio("Раздел", SECTIONS, key="section")
 
