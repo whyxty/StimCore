@@ -486,22 +486,23 @@ div[data-testid="stAlert"][kind="success"] {{ border-left-color: var(--green) !i
     color: var(--text0) !important;
     font-size: 14px !important;
 }}
+/* Убираем индивидуальные «коробки» вокруг каждой формулы:
+   - отдельная рамка/левый акцент/bg2 у каждой st.latex выглядит
+     тяжело и создаёт тёмные подложки под subscript-спанами (когда
+     внутрь KaTeX попадают streamlit-обёртки с фоном bg0).
+   - без рамки формулы плотно сидят внутри родительского экспандера
+     и не вылезают за его правый край. */
 .katex-display {{
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 4px;
-    padding: 12px 16px !important;
-    margin: 10px 0 !important;
-    /* длинные формулы прокручиваются внутри своего блока вместо
-       того чтобы вылезать за рамку родительского экспандера */
+    background: transparent !important;
+    border: none !important;
+    border-left: none !important;
+    border-radius: 0 !important;
+    padding: 4px 0 !important;
+    margin: 6px 0 !important;
     max-width: 100%;
     box-sizing: border-box;
     overflow-x: auto;
 }}
-/* глобальный фон bg0 на st-* классах подтягивает тёмный фон под
-   внутренние спаны KaTeX (subscript/numerator/denominator) —
-   гасим, чтобы фон у формулы был только у внешнего .katex-display */
 .katex, .katex *,
 .katex-display *,
 [data-testid="stMarkdownContainer"] .katex,
