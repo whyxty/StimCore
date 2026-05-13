@@ -34,11 +34,38 @@ if _pending:
     st.session_state["section"] = _pending
     # При программной смене раздела браузер сохраняет прежний скролл
     # (кнопка «ДАЛЕЕ» внизу страницы константы → открытие задач со скроллом
-    # в самый низ). Сбрасываем позицию в верх через iframe parent.
+    # в самый низ). Сбрасываем позицию во всех возможных скролл-контейнерах
+    # Streamlit. Селекторы меняются от версии к версии — пробуем все.
     import streamlit.components.v1 as _components
     _components.html(
-        "<script>window.parent.document.querySelector('section.main')?.scrollTo(0,0);"
-        "window.parent.scrollTo(0,0);</script>",
+        """
+<script>
+(function(){
+  var doc = window.parent.document;
+  function up(){
+    var sels = [
+      'section.main',
+      '[data-testid="stMain"]',
+      '[data-testid="stAppViewContainer"]',
+      '[data-testid="stAppViewBlockContainer"]',
+      '.main',
+      '.block-container'
+    ];
+    sels.forEach(function(s){
+      var el = doc.querySelector(s);
+      if (el) { el.scrollTop = 0; }
+    });
+    try { window.parent.scrollTo(0,0); } catch(e){}
+    try { doc.documentElement.scrollTop = 0; } catch(e){}
+    try { doc.body.scrollTop = 0; } catch(e){}
+  }
+  // повторяем дважды: первый вызов до рендера, второй — после
+  up();
+  setTimeout(up, 50);
+  setTimeout(up, 250);
+})();
+</script>
+""",
         height=0,
     )
 
